@@ -1,0 +1,15 @@
+#include <iostream>
+
+using namespace std;
+
+int main(void) {
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+	int a, b, c, d;
+
+	cin >> a >> b >> c >> d;
+
+	cout << abs(a + d - b - c);
+}
