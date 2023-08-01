@@ -2,7 +2,6 @@
 
 #include <iostream>
 #include <vector>
-#include <cmath>
 
 using namespace std;
 
@@ -63,7 +62,22 @@ void unionfunc(int a, int b) {
     }
 }
 
-// find 연산 : 대표 노드를 찾아서 리턴
+/**
+ find 연산 : 대표 노드를 찾아서 반환
+
+ 0 1 3
+ 0 3 7 넣었을 때, parent 배열의 상황
+
+        idx  : 1 2 3 4 5 6 7
+ parent[idx] : 7 2 1 4 5 6 7
+*/
+
+// parent[3] = find(1);
+// find(1) = parent[1] = find(7);
+// parent[1] = find(7);
+// find(7) == 7;
+
+// => parent[3] == parent[1] == parent[7] == 7
 int find(int a) {
     // a가 대표 노드면 반환
     if (a == parent[a])
