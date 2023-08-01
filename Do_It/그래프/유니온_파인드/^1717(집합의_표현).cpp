@@ -2,79 +2,84 @@
 
 #include <iostream>
 #include <vector>
+#include <cmath>
 
 using namespace std;
 
-int n, m, input, a, b;
 vector<int> parent;
 
-void merge(int a, int b);
+void unionfunc(int a, int b);
 int find(int a);
+bool checkSame(int a, int b);
 
-int main(void) {
+int main() {
     ios::sync_with_stdio(false);
     cin.tie(NULL);
     cout.tie(NULL);
 
-    cin >> n >> m;
+    int N, M;
 
-    parent.resize(n + 1);
+    cin >> N >> M;
 
-    for (int i = 0; i < n + 1; i++) {
+    parent.resize(N + 1);
+
+    // 대표 노드를 자기 자신으로 초기화
+    for (int i = 0; i <= N; i++) {
         parent[i] = i;
     }
 
-    for (int i = 0; i < m; i++) {
-        cin >> input >> a >> b;
+    for (int i = 0; i < M; i++) {
+        int question, a, b;
 
-        if (input == 0) {
-            merge(a, b);
+        cin >> question >> a >> b;
+
+        // 입력으로 0이 들어오면, 합집합 연산을 실행하므로, 집합 합치기
+        if (question == 0) {
+            unionfunc(a, b);
         }
 
-        else if (input == 1) {
-            if (find(a) == find(b))
-                cout << "YES\n";
-            else
-                cout << "NO\n";
+        // 입력으로 1이 들어오면, 같은 집합의 원소인지 확인하기
+        else {
+            if (checkSame(a, b)) {
+                cout << "YES" << "\n";
+            }
+
+            else {
+                cout << "NO" << "\n";
+            }
         }
     }
-
-    return 0;
 }
 
-// union 연산 : 바로 연결하는 것이 아닌, 대표 노드끼리 연결함
-void merge(int a, int b) {
+// union 연산 : 바로 연결이 아닌 대표 노드끼리 연결하여 줌
+void unionfunc(int a, int b) {
+    // a, b의 대표 노드 찾기
     a = find(a);
     b = find(b);
 
+    // 두 원소의 대표 노드끼리 연결
     if (a != b) {
         parent[b] = a;
     }
 }
 
-/**
- find 연산 : 대표 노드를 찾아서 반환
-
- 0 1 3
- 0 3 7 넣었을 때, parent 배열의 상황
-
-        idx  : 1 2 3 4 5 6 7
- parent[idx] : 7 2 1 4 5 6 7
-*/
-
-// parent[3] = find(1);
-// find(1) = parent[1] = find(7);
-// parent[1] = find(7);
-// find(7) == 7;
-
-// => parent[3] == parent[1] == parent[7] == 7
-
+// find 연산 : 대표 노드를 찾아서 리턴
 int find(int a) {
-    if (a == parent[a]) {
+    // a가 대표 노드면 반환
+    if (a == parent[a])
         return a;
+    // 아니면 a의 대표 노드 값을 find(parent[a]) 값으로 저장 -> 재귀함수 형태
+    else
+        return parent[a] = find(parent[a]);	 // 재귀함수의 형태로 구현
+}
+
+bool checkSame(int a, int b) { // 두 원소가 같은 집합인지 확인
+    a = find(a);
+    b = find(b);
+
+    if (a == b) {
+        return true;
     }
-    else {
-        // a의 대표 노드 값을 find(parent[a]) 값으로 저장 -> 재귀함수 형태
-        return parent[a] = find(parent[a]);
-    }
+
+    return false;
 }
