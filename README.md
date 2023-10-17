@@ -1,2 +1,2 @@
 # Baekjoon
-Repository for algorithmic study using c++.
+Repository for algorithmic study using c++
