@@ -64,3 +64,48 @@ int main() {
 
     return 0;
 }
+
+
+// DP
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+int N, price;
+vector <int> card;
+vector <int> dp;
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    
+    cin >> N;
+
+    card.resize(N + 1);
+    dp.resize(N + 1);
+
+    for (int i = 1; i <= N; i++) {
+        cin >> price;
+
+        card[i] = price;
+    }
+
+    // dp[a] = b => a개의 카드를 갖기 위해서 지불해야 하는 최대금액은 b원임을 의미.
+    dp[1] = card[1];
+
+    for (int i = 2; i <= N; i++) {
+        for (int j = 1; j <= i; j++) {
+            //cout << "i : " << i << ", j : " << j << ", dp[i] : " << dp[i] << ", dp[i - j] : " << dp[i - j] << ", card[j] : " << card[j] << '\n';
+            // (i - j)장의 카드를 구매하는 데 지불해야 하는 최대 금액 + 특정 카드 (card[j])를 사는데 지불하는 비용
+            dp[i] = max(dp[i], dp[i - j] + card[j]);
+        }
+    }
+
+    cout << dp[N];
+
+    return 0;
+}
