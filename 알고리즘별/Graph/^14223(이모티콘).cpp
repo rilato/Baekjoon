@@ -1,4 +1,7 @@
-﻿#include <iostream>
+﻿// 화면과 클립보드를 모두 나타낼 수 있도록, 2차원의 visited 배열을 만든다.
+// 또한, 시간이 1초 늘어남에 따라 퍼지는 그래프를 그려보며, S와 일치할 때의 시간을 찾는다.
+
+#include <iostream>
 #include <queue>
 
 using namespace std;
