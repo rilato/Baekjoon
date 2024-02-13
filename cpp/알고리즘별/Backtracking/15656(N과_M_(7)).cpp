@@ -43,6 +43,7 @@ void Backtracking(int depth) {
         return;
     }
 
+    // 중복을 가능하게 만들기 위해, visited 배열에 방문 표시를 따로 하지 않는다.
     for (int i = 0; i < N; i++) {
         answer.push_back(v[i]);
         Backtracking(depth + 1);
