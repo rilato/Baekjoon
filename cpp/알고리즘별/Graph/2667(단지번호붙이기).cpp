@@ -1,93 +1,85 @@
-// DFS BFS 모두 사용해서 풀어봤음
-
 #include <iostream>
+#include <vector>
+#include <algorithm>
 #include <queue>
 
 using namespace std;
 
-#define MAX 101
+int N;
+string S;
+int answer = 0;
+int dr[4] = { -1, 1, 0, 0 };
+int dc[4] = { 0, 0, -1, 1 };
+vector <vector <int>> v;
+vector <vector <bool>> visited;
+vector <int> ans;
 
-int N, M; //정점개수, 간선개수, 시작정점
-int map[MAX][MAX]; //인접 행렬 그래프
-bool visited[MAX]; //정점 방문 여부
-int cnt = 0;
-queue<int> q;
-
-void reset();
-void DFS(int v);
-//void BFS(int v);
+int BFS(int row, int col);
 
 int main() {
-    ios::sync_with_stdio(false);
+    ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     cout.tie(NULL);
 
-    cin >> N >> M;
+    cin >> N;
 
-    for (int i = 0; i < M; i++) {
-        int a, b;
+    v.resize(N, vector <int>(N));
+    visited.resize(N, vector <bool>(N));
 
-        cin >> a >> b;
+    for (int i = 0; i < N; i++) {
+        cin >> S;
 
-        // a와 b가 인접해있으면 (a,b) 와 (b,a) 모두 행렬에서 1로 설정
-        map[a][b] = 1;
-        map[b][a] = 1;
+        for (int j = 0; j < N; j++) {
+            v[i][j] = S[j] - '0';
+        }
     }
 
-    DFS(1);
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+            if (v[i][j] == 1 && !visited[i][j]) {
+                int cnt = BFS(i, j);
+                ans.push_back(cnt);
+                answer++;
+            }
+        }
+    }
 
-    //cout << cnt << '\n';
+    sort(ans.begin(), ans.end());
 
-    //cnt = 0;
+    cout << answer << '\n';
 
-    //reset();
-    //BFS(1);
-
-    cout << cnt;
+    for (int i = 0; i < ans.size(); i++) {
+        cout << ans[i] << '\n';
+    }
 
     return 0;
 }
 
-void reset() {
-    for (int i = 1; i <= N; i++) {
-        visited[i] = 0;
-    }
-}
+int BFS(int row, int col) {
+    int count = 0;
+    queue <pair <int, int>> q;
 
-void DFS(int v) {
-    // 인자로 받은 현재의 점은 방문한 상태이므로 true로 변경
-    visited[v] = true;
+    q.push({ row, col });
+    visited[row][col] = true;
+    count++;    // 현재 방문한 애 카운트
 
-    // N은 노드의 개수
-    for (int i = 1; i <= N; i++) {
-        if (map[v][i] == 1 && visited[i] == 0) { //현재 정점과 연결되어있고 방문되지 않았으면
-            ++cnt;
-            DFS(i);
-        }
-    }
-}
-
-void BFS(int v) {
-    // 인자로 받은 현재의 점을 큐에 푸시
-    q.push(v);
-    // 방문한 상태이므로 true로 변경
-    visited[v] = true;
-
-    // 큐가 차있는 동안 계속 진행
     while (!q.empty()) {
-        v = q.front();
+        int r = q.front().first;
+        int c = q.front().second;
 
         q.pop();
 
-        // N은 노드의 개수
-        for (int i = 1; i <= N; i++) {
-            if (map[v][i] == 1 && visited[i] == 0) { //현재 정점과 연결되어있고 방문되지 않았으면
-                ++cnt;
-                // 그 애를 큐에 푸시
-                q.push(i);
-                // 방문했다고 표시
-                visited[i] = true;
+        for (int i = 0; i < 4; i++) {
+            int nr = r + dr[i];
+            int nc = c + dc[i];
+
+            if (nr >= 0 && nc >= 0 && nr < N && nc < N && !visited[nr][nc] && v[nr][nc] == 1) {
+                visited[nr][nc] = true;
+                q.push({ nr, nc });
+                count++;
             }
         }
     }
+
+    return count;
 }
