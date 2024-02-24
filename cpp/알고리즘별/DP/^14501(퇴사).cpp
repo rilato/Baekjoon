@@ -14,7 +14,7 @@ int main() {
 
 	cin >> N;
 
-	// N + 1ÀÏ±îÁö °è»êÇØ¾ßÇÏ¹Ç·Î vº¸´Ù 1°³ ´õ °ø°£À» È®º¸ÇÑ´Ù.
+	// N + 1ì¼ê¹Œì§€ ê³„ì‚°í•´ì•¼í•˜ë¯€ë¡œ vë³´ë‹¤ 1ê°œ ë” ê³µê°„ì„ í™•ë³´í•œë‹¤.
 	answer.resize(N + 1);
 
 	for (int i = 0; i < N; i++) {
@@ -23,8 +23,8 @@ int main() {
 		v.push_back({ T, P });
 	}
 
-	// i´Â 0ÀÏºÎÅÍ ½ÃÀÛÇÏ¹Ç·Î, ¸¶Áö¸·À¸·Î »ó´ã °¡´ÉÇÑ ³¯Â¥´Â N - 1ÀÌ°í,
-	// »ó´ãÀÌ °¡´ÉÇÑ ¼ıÀÚ´Â NÀ¸·Î ¼³Á¤ÇÑ´Ù.
+	// iëŠ” 0ì¼ë¶€í„° ì‹œì‘í•˜ë¯€ë¡œ, ë§ˆì§€ë§‰ìœ¼ë¡œ ìƒë‹´ ê°€ëŠ¥í•œ ë‚ ì§œëŠ” N - 1ì´ê³ ,
+	// ìƒë‹´ì´ ê°€ëŠ¥í•œ ìˆ«ìëŠ” Nìœ¼ë¡œ ì„¤ì •í•œë‹¤.
 	for (int i = N - 1; i >= 0; i--) {
 		if (i + v[i].first <= N) {
 			answer[i] = max(answer[i + 1], v[i].second + answer[i + v[i].first]);
@@ -37,4 +37,53 @@ int main() {
 	cout << answer[0];
 
 	return 0;
+}
+
+
+
+
+
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int N, T, P;
+int answer = 0;
+vector <pair <int, int>> v;
+vector <int> dp;
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+
+    cin >> N;
+
+    dp.resize(N + 1);
+
+    for (int i = 0; i < N; i++) {
+        cin >> T >> P;
+
+        v.push_back({ T, P });
+    }
+
+    for (int i = N - 1; i >= 0; i--) {
+        // i : ì˜¤ëŠ˜ ë‚ ì§œ, v[i].first : ê±¸ë¦¬ëŠ” ì¼ ìˆ˜, N : ë§ˆë¬´ë¦¬í•´ì•¼í•˜ëŠ” ë‚ ì§œ
+        int finishDay = i + v[i].first;
+        // ìƒë‹´ ê°€ëŠ¥ ë‚ ì§œë¼ë©´, i + 1ë‚  ê¹Œì§€ì˜ ìµœëŒ€ ì´ìµê³¼, ì˜¤ëŠ˜ ìˆ˜ë‹¹ + ë§ˆë¬´ë¦¬ ë‚  ìˆ˜ë‹¹ì˜ ìµœëŒ€ ì´ìµì„ ë¹„êµ
+        if (finishDay <= N) {
+            dp[i] = max(dp[i + 1], v[i].second + dp[finishDay]);
+        }
+        // ìƒë‹´ ë¶ˆê°€ëŠ¥í•œ ë‚ ì§œë¼ë©´, i + 1ë‚  ê¹Œì§€ì˜ ìµœëŒ€ ì´ìµì„ ê·¸ëŒ€ë¡œ ë°˜ì˜
+        else {
+            dp[i] = dp[i + 1];
+        }
+
+        answer = max(answer, dp[i]);
+    }
+
+    cout << answer;
+
+    return 0;
 }
