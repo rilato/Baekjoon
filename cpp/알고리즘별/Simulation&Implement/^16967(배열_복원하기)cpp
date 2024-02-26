@@ -1,0 +1,50 @@
+// 원래 배열을 계산하는 2중 for문에서 i = X, j = Y부터 시작하면 복잡하여 계산 결과가 다르게 나올 수 있으므로, i = 0, j = 0부터 시작하도록 한다.
+
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int N, M, X, Y;
+vector <vector <int>> v;
+vector <vector <int>> ans;
+
+int main() {
+	ios::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+	cin >> N >> M >> X >> Y;
+
+	v.resize(N + X, vector <int>(M + Y));
+	ans.resize(N, vector <int>(M));
+
+	for (int i = 0; i < N + X; i++) {
+		for (int j = 0; j < M + Y; j++) {
+			cin >> v[i][j];
+		}
+	}
+
+	for (int i = 0; i < N; i++) {
+		for (int j = 0; j < M; j++) {
+			// 겹치는 부분은 차이를 계산한다
+			if (i >= X && j >= Y) {
+				ans[i][j] = v[i][j] - ans[i - X][j - Y];
+			}
+			// 겹치지 않는 부분은 그대로 가져간다
+			else {
+				ans[i][j] = v[i][j];
+			}
+		}
+	}
+
+	for (int i = 0; i < N; i++) {
+		for (int j = 0; j < M; j++) {
+			cout << ans[i][j] << " ";
+		}
+		
+		cout << '\n';
+	}
+
+	return 0;
+}
