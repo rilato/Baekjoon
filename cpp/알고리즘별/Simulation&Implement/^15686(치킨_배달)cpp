@@ -1,0 +1,206 @@
+// 문제에서 주어진 대로 행과 열의 절대값의 합으로 거리를 구한다.
+// BFS를 사용하여 거리를 구하면, 메모리 초과가 발생할 수 있다.
+
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <climits>
+
+using namespace std;
+
+int N, M;
+int answer = INT_MAX;
+vector <vector <int>> v;
+vector <pair <int, int>> home;
+vector <pair <int, int>> chicken;
+vector <bool> visited;
+vector <pair <int, int>> combination;
+
+void Backtracking(int depth, int idx);
+
+int main() {
+	ios::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+	cin >> N >> M;
+
+	v.resize(N, vector <int>(N));
+
+	for (int i = 0; i < N; i++) {
+		for (int j = 0; j < N; j++) {
+			cin >> v[i][j];
+
+			if (v[i][j] == 1) {
+				home.push_back({ i, j });
+			}
+			if (v[i][j] == 2) {
+				chicken.push_back({ i, j });
+			}
+		}
+	}
+
+	visited.resize(chicken.size());
+
+	Backtracking(0, 0);
+
+	cout << answer;
+
+	return 0;
+}
+
+void Backtracking(int depth, int idx) {
+	if (depth == M) {
+		int sum = 0;
+		vector <vector <int>> map;
+
+		map.resize(N, vector <int>(N));
+
+		for (int i = 0; i < N; i++) {
+			for (int j = 0; j < N; j++) {
+				map[i][j] = v[i][j];
+
+				// 일단 모든 치킨집 폐업 시키기
+				if (map[i][j] == 2) {
+					map[i][j] = 0;
+				}
+			}
+		}
+
+		// 폐업하지 않고, 조사할 치킨 집만 2로 설정
+		for (int i = 0; i < combination.size(); i++) {
+			int row = combination[i].first;
+			int col = combination[i].second;
+
+			map[row][col] = 2;
+		}
+			 
+		// 단순하게, 행과 열의 길이를 구해서, 치킨 집과의 거리를 계산한다
+		for (int i = 0; i < home.size(); i++) {
+			int distance = INT_MAX;
+
+			for (int j = 0; j < combination.size(); j++) {
+				int r1 = home[i].first;
+				int c1 = home[i].second;
+				int r2 = combination[j].first;
+				int c2 = combination[j].second;
+
+				distance = min(distance, abs(r1 - r2) + abs(c1 - c2));
+			}
+
+			sum += distance;
+		}
+
+		answer = min(answer, sum);
+
+		// 아래는 BFS로 풀어서 메모리 초과가 발생한다.
+		//for (int k = 0; k < home.size(); k++) {
+			//int distance = INT_MAX;
+			//int r = home[k].first;
+			//int c = home[k].second;
+			//int dr[4] = { -1, 1, 0, 0 };
+			//int dc[4] = { 0, 0, -1, 1 };
+			//bool flag = false;
+
+			////cout << "home i : " << r << ", home j : " << c << '\n';
+
+			//// 치킨 집의 조합
+			//vector <vector <int>> map;
+			//queue <pair <int, int>> q;
+
+			//map.resize(N, vector <int>(N));
+
+			//for (int i = 0; i < N; i++) {
+			//	for (int j = 0; j < N; j++) {
+			//		map[i][j] = v[i][j];
+
+			//		// 일단 모든 치킨집 폐업 시키기
+			//		if (map[i][j] == 2) {
+			//			map[i][j] = 0;
+			//		}
+
+			//		// 출발 지점 3으로 지정하기
+			//		if (i == r && j == c) {
+			//			map[i][j] = 3;
+			//		}
+			//	}
+			//}
+
+			//// 폐업하지 않고, 조사할 치킨 집만 2로 설정
+			//for (int i = 0; i < combination.size(); i++) {
+			//	int row = combination[i].first;
+			//	int col = combination[i].second;
+
+			//	//cout << "row : " << row << ", col : " << col << '\n';
+
+			//	map[row][col] = 2;
+			//}
+
+			///*cout << "map\n";
+			//for (int i = 0; i < N; i++) {
+			//	for (int j = 0; j < N; j++) {
+			//		cout << map[i][j] << " ";
+			//	}
+			//	cout << '\n';
+			//}*/
+
+			//q.push({ r, c });
+
+			//while (!q.empty()) {
+			//	int row = q.front().first;
+			//	int col = q.front().second;
+
+			//	//cout << "row : " << row << ", col : " << col << ", map[row][col] : " << map[row][col] << '\n';
+
+			//	q.pop();
+
+			//	if (map[row][col] == 2 || flag) {
+			//		break;
+			//	}
+
+			//	for (int i = 0; i < 4; i++) {
+			//		int nr = row + dr[i];
+			//		int nc = col + dc[i];
+
+			//		// 집이 있어도 그 위를 지나갈 수 있음. 따라서 map[nr][nc] == 1인 경우, continue 해주지 않음.
+			//		if (nr < 0 || nc < 0 || nr >= N || nc >= N) {
+			//			continue;
+			//		}
+
+			//		//cout << "nr : " << nr << ", nc : " << nc << ", map[nr][nc] : " << map[nr][nc] << '\n';
+
+			//		if (map[nr][nc] == 2) {
+			//			distance = min(distance, map[row][col] + 1);
+			//			flag = true;
+			//			break;
+			//		}
+
+			//		map[nr][nc] = map[row][col] + 1;
+			//		q.push({ nr, nc });
+			//	}
+			//}
+
+			//// 출발 지점을 3으로 지정했으므로, 정답에서 3 빼주기
+			//distance -= 3;
+
+			////cout << "distance : " << distance << '\n';
+
+			//sum += distance;
+
+			////cout << "sum : " << sum << '\n';
+		//}
+
+		//answer = min(answer, sum);
+		//cout << "answer : " << answer << '\n' << '\n';
+	}
+
+	for (int i = idx; i < chicken.size(); i++) {
+		if (!visited[i]) {
+			visited[i] = true;
+			combination.push_back({ chicken[i].first, chicken[i].second });
+			Backtracking(depth + 1, i + 1);
+			combination.pop_back();
+			visited[i] = false;
+		}
+	}
+}
