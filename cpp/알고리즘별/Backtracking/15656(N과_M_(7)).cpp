@@ -1,8 +1,8 @@
-// Áßº¹¼ø¿­À» ±¸ÇÏ´Â ¹®Á¦
+// ì¤‘ë³µìˆœì—´ì„ êµ¬í•˜ëŠ” ë¬¸ì œ
 
 #include <iostream>
 #include <vector>
-#include <algorithm>Á¦
+#include <algorithm>
 
 using namespace std;
 
@@ -43,7 +43,7 @@ void Backtracking(int depth) {
         return;
     }
 
-    // Áßº¹À» °¡´ÉÇÏ°Ô ¸¸µé±â À§ÇØ, visited ¹è¿­¿¡ ¹æ¹® Ç¥½Ã¸¦ µû·Î ÇÏÁö ¾Ê´Â´Ù.
+    // ì¤‘ë³µì„ ê°€ëŠ¥í•˜ê²Œ ë§Œë“¤ê¸° ìœ„í•´, visited ë°°ì—´ì— ë°©ë¬¸ í‘œì‹œë¥¼ ë”°ë¡œ í•˜ì§€ ì•ŠëŠ”ë‹¤.
     for (int i = 0; i < N; i++) {
         answer.push_back(v[i]);
         Backtracking(depth + 1);
