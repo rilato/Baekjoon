@@ -1,5 +1,55 @@
-// 15649¹øÀÌ ¹éÆ®·¡Å·À» ÅëÇÑ ¼ø¿­ ±¸ÇÏ±â¿´´Ù¸é, ÀÌ¹ø ¹®Á¦´Â ¹éÆ®·¡Å·À» ÅëÇÑ Á¶ÇÕ ±¸ÇÏ±â¶ó°í ÇÒ ¼ö ÀÖ´Ù.
-// for¹®ÀÇ index°ªÀ» ÇÔ²² Àç±ÍÇÔ¼öÀÇ ÀÎÀÚ·Î ³Ñ°ÜÁÖ¸é ¾Õ¿¡¼­ ÀÌ¹Ì Ã£Àº Á¶ÇÕÀº ´Ù½Ã »ÌÁö ¾Êµµ·Ï ¸¸µé ¼ö ÀÖ´Ù.
+// 15649ë²ˆì´ ë°±íŠ¸ë˜í‚¹ì„ í†µí•œ ìˆœì—´ êµ¬í•˜ê¸°ì˜€ë‹¤ë©´, ì´ë²ˆ ë¬¸ì œëŠ” ë°±íŠ¸ë˜í‚¹ì„ í†µí•œ ì¡°í•© êµ¬í•˜ê¸°ë¼ê³  í•  ìˆ˜ ìˆë‹¤.
+// forë¬¸ì˜ indexê°’ì„ í•¨ê»˜ ì¬ê·€í•¨ìˆ˜ì˜ ì¸ìë¡œ ë„˜ê²¨ì£¼ë©´ ì•ì—ì„œ ì´ë¯¸ ì°¾ì€ ì¡°í•©ì€ ë‹¤ì‹œ ë½‘ì§€ ì•Šë„ë¡ ë§Œë“¤ ìˆ˜ ìˆë‹¤.
+
+
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int N, M;
+vector <int> v;
+vector <bool> visited;
+
+void Backtracking(int depth, int num);
+
+int main() {
+	ios::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+	cin >> N >> M;
+
+	visited.resize(N + 1);
+
+	Backtracking(0, 1);
+
+	return 0;
+}
+
+void Backtracking(int depth, int num) {
+	if (depth == M) {
+		for (int i = 0; i < M; i++) {
+			cout << v[i] << " ";
+		}
+
+		cout << '\n';
+
+		return;
+	}
+
+	for (int i = num; i <= N; i++) {
+		if (!visited[i]) {
+			visited[i] = true;
+			v.push_back(i);
+			Backtracking(depth + 1, i + 1);
+			v.pop_back();
+			visited[i] = false;
+		}
+	}
+}
+
+// ì´ì „ í’€ì´
 
 #include <iostream>
 #include <vector>
@@ -40,14 +90,14 @@ void Backtracking(int num, int depth) {
 
     for (int i = num; i <= N; i++) {
         if (!visited[i]) {
-            // depth¿¡ ¼ıÀÚ ³Ö±â
+            // depthì— ìˆ«ì ë„£ê¸°
             v[depth] = i;
-            // ¹æ¹®ÇÑ °÷Àº Ã¼Å© Ã³¸®
+            // ë°©ë¬¸í•œ ê³³ì€ ì²´í¬ ì²˜ë¦¬
             visited[i] = true;
-            // depthº¸´Ù 1¸¸Å­ÀÇ ±íÀÌ¸¦ ´õ µé¾î°¡¼­ Å½»ö
-            // for¹®ÀÇ index °ªÀ» Àç±ÍÇÔ¼öÀÇ ÀÎÀÚ·Î ³Ñ°ÜÁÜÀ¸·Î½á ÀÌ¹Ì Ã£Àº Á¶ÇÕÀº ´Ù½Ã »ÌÁö ¾Êµµ·Ï ÇÔ
+            // depthë³´ë‹¤ 1ë§Œí¼ì˜ ê¹Šì´ë¥¼ ë” ë“¤ì–´ê°€ì„œ íƒìƒ‰
+            // forë¬¸ì˜ index ê°’ì„ ì¬ê·€í•¨ìˆ˜ì˜ ì¸ìë¡œ ë„˜ê²¨ì¤Œìœ¼ë¡œì¨ ì´ë¯¸ ì°¾ì€ ì¡°í•©ì€ ë‹¤ì‹œ ë½‘ì§€ ì•Šë„ë¡ í•¨
             Backtracking(i + 1, depth + 1);
-            // Ãâ·Â ÈÄ returnÀ» ¸¸³ª¸é¼­, false·Î ´Ù½Ã ¹Ù²ãÁÖ±â
+            // ì¶œë ¥ í›„ returnì„ ë§Œë‚˜ë©´ì„œ, falseë¡œ ë‹¤ì‹œ ë°”ê¿”ì£¼ê¸°
             visited[i] = false;
         }
     }
