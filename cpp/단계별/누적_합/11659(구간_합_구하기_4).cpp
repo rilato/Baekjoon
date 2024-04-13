@@ -1,5 +1,5 @@
-// ½Ã°£ ÃÊ°ú°¡ ³­ Ç®ÀÌ
-// for¹®À» °úµµÇÏ°Ô »ç¿ëÇß´Ù.
+// ì‹œê°„ ì´ˆê³¼ê°€ ë‚œ í’€ì´
+// forë¬¸ì„ ê³¼ë„í•˜ê²Œ ì‚¬ìš©í–ˆë‹¤.
 
 #include <iostream>
 #include <vector>
@@ -35,9 +35,9 @@ int main() {
 }
 
 
-// ¸ÂÀº Ç®ÀÌ
-// ÇöÀç±îÁö ÀÔ·Â°ªÀÇ ÇÕÀ» ÀúÀåÇØ³õÀº´Ù.
-// ÀÌÈÄ sum[j] - sum[i - 1]¸¦ ÇÑ´Ù.
+// ë§žì€ í’€ì´
+// í˜„ìž¬ê¹Œì§€ ìž…ë ¥ê°’ì˜ í•©ì„ ì €ìž¥í•´ë†“ì€ë‹¤.
+// ì´í›„ sum[j] - sum[i - 1]ë¥¼ í•œë‹¤.
 
 #include <iostream>
 #include <vector>
