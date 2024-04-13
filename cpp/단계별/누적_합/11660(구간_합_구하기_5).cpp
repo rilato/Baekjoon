@@ -1,4 +1,4 @@
-// ÀÚ¼¼ÇÑ ¼³¸íÀº ´ÙÀ½À» Âü°íÇÑ´Ù.
+// ìžì„¸í•œ ì„¤ëª…ì€ ë‹¤ìŒì„ ì°¸ê³ í•œë‹¤.
 // https://cocoon1787.tistory.com/377
 
 #include <iostream>
@@ -18,7 +18,7 @@ int main() {
 
 	cin >> N >> M;
 
-	// °è»ê »óÀÇ ÆíÀÇ¸¦ À§ÇØ arrÀÇ 0¹øÂ° Çà°ú 0¹øÂ° ¿­Àº ºñ¿öµÐ´Ù.
+	// ê³„ì‚° ìƒì˜ íŽ¸ì˜ë¥¼ ìœ„í•´ arrì˜ 0ë²ˆì§¸ í–‰ê³¼ 0ë²ˆì§¸ ì—´ì€ ë¹„ì›Œë‘”ë‹¤.
 	for (int i = 1; i <= N; i++) {
 		for (int j = 1; j <= N; j++) {
 			cin >> num;
